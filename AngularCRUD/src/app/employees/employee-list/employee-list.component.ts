@@ -11,9 +11,16 @@ import { ToastrService } from 'ngx-toastr';
 export class EmployeeListComponent implements OnInit {
 
   constructor(private employeeService: EmployeeService,private toastr : ToastrService) { }
-
+  employeeList: any;
   ngOnInit() {
-    this.employeeService.getEmployeeList();
+    this.employeeService.getEmployeeList()
+
+    .subscribe(
+      res => {
+        console.log(res);
+        this.employeeList = res['data'];
+      }
+    )
   }
 
   showForEdit(emp: Employee) {

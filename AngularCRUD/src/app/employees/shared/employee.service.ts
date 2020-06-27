@@ -17,28 +17,31 @@ export class EmployeeService {
     var body = JSON.stringify(emp);
     var headerOptions = new Headers({'Content-Type':'application/json'});
     var requestOptions = new RequestOptions({method : RequestMethod.Post,headers : headerOptions});
-    return this.http.post('http://dummy.restapiexample.com/api/v1/create',body,requestOptions).map(x => x.json());
+    return this.http.post('http://dummy.restapiexample.com/api/v1/create', body, requestOptions).map((x: Response) => x.json());
   }
 
   putEmployee(id, emp) {
     var body = JSON.stringify(emp);
     var headerOptions = new Headers({ 'Content-Type': 'application/json' });
     var requestOptions = new RequestOptions({ method: RequestMethod.Put, headers: headerOptions });
-    return this.http.put('http://dummy.restapiexample.com/api/v1/employees' + id,
+    return this.http.put('http://dummy.restapiexample.com/api/v1/employees/' + id,
       body,
-      requestOptions).map(res => res.json());
+      requestOptions).map((res: Response) => res.json());
   }
-  getEmployeeList(){
-    this.http.get('http://dummy.restapiexample.com/api/v1/employees')
-    .map((data : Response) =>{
-      console.warn(data.json()+"****************************");     
-      // this.data 
-      // return data.json();
-      return data.json() as Employee[];
-    }).toPromise().then(x => {
-      this.employeeList = x;
-      console.warn(this.employeeList+"****************************");
-    })
+  getEmployeeList(): Observable<any>{
+    return this.http.get('http://dummy.restapiexample.com/api/v1/employees')
+    .map((res : Response) => {
+      return res.json()
+    }) ;
+    // .map((data : Response) =>{
+    //   console.warn(data.json()+"****************************");    
+    //   // this.data 
+    //   // return data.json();
+    //   return data.json() as Employee[];
+    // }).toPromise().then(x => {
+    //   this.employeeList = x;
+    //   console.warn(this.employeeList+"****************************"); 
+    // })
   }
 
   deleteEmployee(id: number) {
